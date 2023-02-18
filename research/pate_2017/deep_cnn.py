@@ -156,7 +156,8 @@ def inference(images, dropout=False):
   with tf.variable_scope('local3') as scope:
     # Move everything into depth so we can perform a single matrix multiply.
     reshape = tf.reshape(pool2, [FLAGS.batch_size, -1])
-    dim = reshape.get_shape()[1].value
+    #dim = reshape.get_shape()[1].value
+    dim = reshape.get_shape().as_list()[1]
     weights = _variable_with_weight_decay('weights',
                                           shape=[dim, 384],
                                           stddev=0.04,
@@ -440,6 +441,7 @@ def _input_placeholder():
     num_channels = 3
 
   # Declare data placeholder
+  tf.compat.v1.disable_eager_execution()
   train_node_shape = (FLAGS.batch_size, image_size, image_size, num_channels)
   return tf.placeholder(tf.float32, shape=train_node_shape)
 
