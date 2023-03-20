@@ -30,7 +30,7 @@ plt.style.use('ggplot')
 FLAGS = flags.FLAGS
 flags.DEFINE_string('plot_file', '', 'Output file name.')
 
-qa_lnmax = [500, 750] + range(1000, 12500, 500)
+qa_lnmax = [500, 750] + list(range(1000, 12500, 500))
 
 acc_lnmax = [43.3, 52.3, 59.8, 66.7, 68.8, 70.5, 71.6, 72.3, 72.6, 72.9, 73.4,
              73.4, 73.7, 73.9, 74.2, 74.4, 74.5, 74.7, 74.8, 75, 75.1, 75.1,

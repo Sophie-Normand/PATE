@@ -52,7 +52,7 @@ plt.style.use('ggplot')
 FLAGS = flags.FLAGS
 flags.DEFINE_boolean('cache', False,
                      'Read results of privacy analysis from cache.')
-flags.DEFINE_string('counts_file', None, 'Counts file.')
+flags.DEFINE_string('counts_file', 'svhn_250_teachers.npy', 'Counts file.')
 flags.DEFINE_string('figures_dir', '', 'Path where figures are written to.')
 
 flags.mark_flag_as_required('counts_file')
@@ -166,7 +166,7 @@ def print_plot_small(figures_dir, eps_lap, eps_gnmax, answered_gnmax):
     eps_gnmax: The cumulative privacy costs of the Gaussian mechanism
     answered_gnmax: The cumulative count of queries answered.
   """
-  xlim = 6000
+  xlim = 450
   x_axis = range(0, int(xlim), 10)
   y_lap = np.zeros(len(x_axis), dtype=float)
   y_gnmax = np.full(len(x_axis), np.nan, dtype=float)
@@ -182,20 +182,23 @@ def print_plot_small(figures_dir, eps_lap, eps_gnmax, answered_gnmax):
   fig.set_figheight(4.5)
   fig.set_figwidth(4.7)
   ax.plot(
-      x_axis, y_lap, color='r', ls='--', label='LNMax', alpha=.5, linewidth=5)
+      x_axis, y_lap, color='r', ls='-', label='LNMax', 
+      #alpha=.5, linewidth=5
+      )
   ax.plot(
       x_axis,
       y_gnmax,
       color='g',
       ls='-',
       label='Confident-GNMax',
-      alpha=.5,
-      linewidth=5)
-  plt.xticks(np.arange(0, 7000, 1000))
-  plt.xlim([0, 6000])
+      #alpha=.5,
+      #linewidth=5
+      )
+  plt.xticks(np.arange(0, 450, 50))
+  plt.xlim([0, 450])
   plt.ylim([0, 6.])
   plt.xlabel('Number of queries answered', fontsize=16)
-  plt.ylabel(r'Privacy cost $\varepsilon$ at $\delta=10^{-8}$', fontsize=16)
+  plt.ylabel(r'Privacy budget $\varepsilon$', fontsize=16)
   plt.legend(loc=2, fontsize=13)  # loc=2 -- upper left
   ax.tick_params(labelsize=14)
   fout_name = os.path.join(figures_dir, 'lnmax_vs_gnmax.pdf')
@@ -217,7 +220,7 @@ def print_plot_large(figures_dir, eps_lap, eps_gnmax1, answered_gnmax1,
     partition_gnmax2: Allocation of eps for set 2.
     answered_gnmax2: The cumulative count of queries answered (set 2).
   """
-  xlim = 6000
+  xlim = 300
   x_axis = range(0, int(xlim), 10)
   lenx = len(x_axis)
   y_lap = np.zeros(lenx)
@@ -281,7 +284,7 @@ def print_plot_large(figures_dir, eps_lap, eps_gnmax1, answered_gnmax1,
       linewidth=1)
   ax.fill_between(
       x_axis, y1_gnmax2.tolist(), y_gnmax2.tolist(), facecolor='b', alpha=.3)
-  plt.xticks(np.arange(0, 7000, 1000))
+  plt.xticks(np.arange(0, 300, 50))
   plt.xlim([0, xlim])
   plt.ylim([0, 1.])
   plt.xlabel('Number of queries answered', fontsize=16)
